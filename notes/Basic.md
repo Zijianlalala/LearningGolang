@@ -42,5 +42,20 @@
 
 ## Chapter 3 Functions
 
+1. 浮点数的格式化输出`fmt.printf("%0.2f", num)`，其中`%0.2f`里面`%f`表示浮点数，小数点前的数字表示整个数字的最小长度，小数点后的数字表示保留几位小数
+2. 框架
 
+```go
+func name(param type) returnType {
+  // code
+  return value
+}
+```
 
+3. 函数返回`error`类型表示执行状态
+4. 函数的形参接收到的是实参的拷贝，也就是**值传递**
+5. **指针**
+   1. 声明指针类型变量 `*int`
+   2. 获取变量的地址`&variable`
+   3. 获取指针变量对应的值`*pointer`
+   4. 更新指针变量对应的值`*pointer = 3`

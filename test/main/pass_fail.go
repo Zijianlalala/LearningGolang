@@ -8,6 +8,9 @@ import (
 	"strings"
 	"strconv"
 )
+func getFloat() (float64, error) {
+		
+}
 
 func main(){
 	fmt.Print("Enter a grade: ")
