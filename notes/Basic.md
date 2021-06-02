@@ -59,3 +59,171 @@ func name(param type) returnType {
    2. 获取变量的地址`&variable`
    3. 获取指针变量对应的值`*pointer`
    4. 更新指针变量对应的值`*pointer = 3`
+
+## Chapter 4 Packages
+
+### 项目结构
+
+* `workspace`
+  * `src`
+  * `bin`
+  * `pkg`
+
+新建项目目录结构后，碰到了项目根目录找不到的问题，解决
+
+```bash
+go env -w GOPATH=/Users/i526563/go
+go env -w GO111MODULE=off
+```
+
+
+
+### Package命名规则
+
+1. 全部小写
+2. 简写且含义明确
+3. 尽可能一个单词，如果多个，首字母也不大写，例如`strconv`
+4. 命名不要和常规单词冲突
+
+### 常量 Constant
+
+```go
+const Days int = 7
+```
+
+
+
+1. 使用`const`关键字声明
+2. 声明时必须赋值
+
+### 设置环境变量 GOPATH
+
+设置
+
+```bash
+export GOPATH="/code"
+```
+
+
+
+### 包的下载
+
+```bash
+go get github.com/headfirstgo/greeting
+```
+
+会将远程包自动放到`workspace`中，`import`之后就可以使用了
+
+阅读包相关文档命令
+
+```bash
+go doc packagePath
+```
+
+另外在源码中，首行的注释和函数前的注释就可被go doc读取，且注释也有规范
+
+1. 需要是完整的句子
+2. 包注释以`Package`开头
+3. 函数注释以`Function Name`开头
+
+## Chapter 5 Arrays
+
+### Basic
+
+声明数组
+
+```go
+var myArray [4]string
+```
+
+* 初始值是零值
+* 数组字面量，`nums :=[3]int{1,2,4}`
+* 遍历时，防止数组越界，可以用`len(array)`，也可以用`for...range`
+
+```go
+nums := [4]int{1,2,3,4}	
+// 如果不需要index，可以使用'_'替代index
+for index, value := range nums {
+	fmt.Println(index,value)
+}
+
+```
+
+### 读取本地文件
+
+```go
+package main
+
+import (
+	"bufio"
+	"os"
+	"log"
+	"fmt"
+)
+
+func main() {
+	file, err := os.Open("data.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+	err = file.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if scanner.Err() != nil {
+		log.Fatal(scanner.Err())
+	}
+}
+```
+
+## Chapter 6 Slices
+
+> 为了解决数组固定大小的问题
+
+`slice`是一个可以动态增长的集合类型，使用`array`实现的。就像`Java`中的`ArrayList`底层也是由`Array`实现的
+
+```go
+// 不指定元素个数时，创建的是slice类型的变量
+var notes []string // 声明slice
+notes = make([]string, 7) //创建slice
+// 或者简写成
+notes := make([]string, 7)
+// 或者使用字面量
+notes := []int{1,2,3}
+// 通过操作数组创建slice (from 1 to 3(exclusive))
+mySlice := myArray[1:3]
+```
+
+
+
+### Append方法
+
+```go
+mySlice = append(mySlice, item)
+```
+
+### 命令行参数
+
+`os.Args`返回的是`slice`类型
+
+### variadic function
+
+可以接收可变数量的参数
+
+```go
+func severalInts(numbers ...int) {
+	// code
+}
+// 但是不能直接把slice类型变量传到该类函数中，需要使用特殊符号进行传递
+func main() {
+  initSlice := []int{1,2,3}
+  severalInts(initSlice...)
+}
+```
+
+## Chapter 7 Maps
+

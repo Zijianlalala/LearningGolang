@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+// 从键盘输入一个数字，返回浮点数格式以及错误状态
 func getFloat() (float64, error) {
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
@@ -23,17 +24,12 @@ func getFloat() (float64, error) {
 	return grade, nil
 }
 
-func main(){
-	fmt.Print("Enter a grade: ")
-	grade, err := getFloat()
-	if err != nil{
+func main()  {
+	fmt.Print("Enter a temperature in Fahrenheit: ")
+	fahrenheit, err := getFloat()
+	if err != nil {
 		log.Fatal(err)
-	} 
-	var status string
-	if grade >= 60 {
-		status = "passing"
-	} else {
-		status = "failing"
 	}
-	fmt.Println("A grade of", grade, "is",status)
+	celsius := (fahrenheit - 32) * 5 / 9
+	fmt.Printf("%0.2f degrees Celsius\n", celsius)
 }
